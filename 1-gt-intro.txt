@@ -62,7 +62,12 @@ now, cat tree.txt | git mktree  --> it will genetrate one hash value and if we c
 Files will move from .git  to staging/index araea ang then to working directort
  to check files in staging area # git ls-files -s
   to move tree to staging/index area # git read-tree bac0 (fiest four letters of hash value)
-   to checkout to working dir -->    # git checkout-index -a                      
+   to checkout to working dir -->    # git checkout-index -a      
+
+ In backend of git:
+  =====================
+  while  we add files to staging area using "git add" command, blobs will be created at object levels 
+  when we commit from staging area "git commit" , tree will be formed which contains  blobs and other one formed is commit which contains all detail of  commit.                
 
 Now you can check in files in folder using "ls -lrt" and also can read using cat command
 
