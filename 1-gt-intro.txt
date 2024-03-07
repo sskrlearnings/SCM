@@ -1,0 +1,123 @@
+Git has its own file structure, every file stored as separate doc and has its own unique hash value.
+git internally works on hash maps based on key value pair.
+git does not require internert and has full accees over folders and github is a repository hosting service and is used to take backups of local folders and it requires internet.
+Github mainly used for distributed team work - primary use, backup is secondary.
+We can host websites on github
+To initialize new git repo
+   # git init  (it will treat as empt dir even if there is data in dir)
+   it creates .git folder where we initialize git and it conatins files & folders
+     config HEAD description & branches hooks info refs objects(info, pack)
+
+Git has obects called git object types
+  1) blob - means file
+  2)tree - menas folder
+  3)commit 4)annotated tags
+
+git install:
+  sudo dnf install git-all
+  git --version --> git version 2.43.0
+
+git has low level commands, to check git internall working 
+  # git hash-object, # git cat-file, # git mktree
+
+to carete git hash values:
+  # echo "hello world" | git hash-object --stdin  --> it will generate hash value only
+  # echo "hello world" | git hash-object --stdin -w  --> it generates hash value and creates folder with first two letters of values under objects folder.
+  hash value = folder + filename
+from value or variable hash value can be craeted but from hash value, variable or value can not be created, only one way
+same hash value will be generated for particular varaible any where
+hash in market --> md5(128 bit), sha256, sha1(160 bits)
+
+In blob while generating hash-value only content of file will be stored not file name.
+
+To check generated file by hash we can use git lowlevel commands:
+  # git cat-file -p <hash_value> --> prints value of hash
+  # git cat-file -t <hash_value> --> shows type as blob or tree
+  # git cat-file -s <hash_value> --> shows size of file
+
+vi myfile.txt:
+---------
+  this is my second blob
+ 
+ git hash-object myfile.txt,
+  git hash-object myfile.txt -w --> crates blob also, if we delete actuall myfile.txt blob will be present
+
+blob stores only file content not file names.
+
+git objects stores data insdie .git(repository) only and it stores value as content+type+size.
+
+
+git internals-git objects has some permissions:
+  for files/blob has 100644
+
+crete tree and move blobs inside it
+ vi tree.txt
+ -----------
+ 100644 blob 3b18e512dba79e4c8300dd08aeb37f8e728b8dad f1.txt
+ 100644 blob 03fd1564ec4b956f8773ca157480731c45fac1a6 f2.txt
+ 040000  --> for dir
+
+now, cat tree.txt | git mktree  --> it will genetrate one hash value and if we check type of this it will show as tree.
+
+Files will move from .git  to staging/index araea ang then to working directort
+ to check files in staging area # git ls-files -s
+  to move tree to staging/index area # git read-tree bac0 (fiest four letters of hash value)
+   to checkout to working dir -->    # git checkout-index -a                      
+
+Now you can check in files in folder using "ls -lrt" and also can read using cat command
+
+commands:
+=============
+git init --> to initialize git repo
+git status --> to check status of files(tracked or untracked)
+git add <file_name> --> it will go to tracked status(stage area)
+git commit -m "message for commit"
+git commit (it will open prompt in editor if there are more message to type)
+git commit -am "added" (adding and commiting at a time only in existing files)
+
+git branch -M main
+git remote add origin https://github.com/sskrlearnings/SCM.git
+git push -u origin main
+
+To open vs code throgh gitbash
+  go to location where folders are present like Git, Ansible...
+    to open Git folder in vs code type 'code Git' in git bash
+
+To move files to staging area:
+  git add <file_name>
+to remove files from staging and back to working directory
+   git rm --cached <file_name>
+to commit files
+   git commit -m "my first commit"
+     it will ask for email and username to track who is commmitiing
+       git config --global user.email "<mail>"
+       git config --global user.name "<your name>"
+       git config --global --edit
+  once  committed and we do modifications to committed file then that file again will be in mofified state need to add and commit it gain.
+
+  To track commits/history
+    git log
+    git log --oneline
+  to check latest  commit
+      git show HEAD
+      git show <commit_id>
+  
+  to check modifications in commits we use "git checkout" at that particular commits, shows our project status. to come out of checkout use " git checkout master"
+    git checkout <commit id>
+  in checkout mode its read only we can not modify any files here
+
+  git revert:
+  =========
+  to remove committed files we use this command. here file/data will be deleted
+      git revert <commit_id>
+  
+  git reset(soft, hard, mixed(default))
+  ====================================
+  git rest --mixed <commit id> {it will unstage commits, commit id should be next one to commit id which we want to unstage, here only file moves to unstaged but no chnages to file}
+  git check out . (now it will remove updated/added data)
+
+  git reset --soft (here file will be moved from committed area to stged area)
+  git reset . (moves to unstaged)
+  git checkout . (removes modified)
+
+  git reset --hard <commit_id> (it will remove all data till the commit id we provided), even log/history will be removed

@@ -1,0 +1,42 @@
+Git is local and github is a central
+if there are 4 developers working on web page , all they connect to github in same repo
+
+
+To push local repos to remote github, need to create repo in github with same name of our local repo
+    git remote add origin https://github.com/sskrlearnings/Git.git
+    git branch -M main
+    git push -u origin main
+
+To pull  from remote origin
+    git pull origin main
+      git branch --set-upstream-to=origin/main ( if we run this command it will crete shortcut to pull evry time from origin main)
+        now command only to run is "git pull"
+
+Git Branches & Merging:
+=========================
+To check branches and in which branch are we
+   git branch
+to crete branch and switch to new branch
+   git branch feature-1
+   git checkout feature-1
+   git checkout -b feature-2 ( will craete and switched to new branch)
+to delete branch
+    git branch -D <baranch_name> (we can not delete branch is we are on same branch)
+
+if we crete new branch and checkout to it all committs till now what we did in source barch will be avaialble to checkout branch also.
+now if we do any commits in new branch it will be present in new branch only, we need to merge to source branch to show these new commits in source branch also.
+
+Merging:
+=========
+to merge from feature to main barch switch to main branch and merge it
+   git merge feature
+     this is called fast forward merging becasue we did not make any commits on main branch, only committed on feature branch.
+merge conflict:
+   in two different brnaches if same file is modified then conflict ouurs during merging, then we can keep reuired modifications and  --> git add and git commit
+    git merge --abort ( it will abort merging and commits in both brnaches remains same)
+
+
+Git Rebase:
+===========
+if we have 2 branches main and feature , suppose in main branch we did commits but those wont reflect in feature branch to reflect those commits in feature branch checkout to feature branch and execute command:
+   git rebase main (now all commits did in base brancch reflects here also)
